@@ -1,3 +1,4 @@
+#https://leetcode-cn.com/problems/minimum-time-to-collect-all-apples-in-a-tree/
 class Solution(object):
     def minTime(self, n, edges, hasApple):
         """
@@ -6,25 +7,24 @@ class Solution(object):
         :type hasApple: List[bool]
         :rtype: int
         """
-        stack = []
-        edgesRemovalList = edges.copy()
-        pathCount = 0
-        
-        while len(edges) > 0 or len(stack) > 0:
-            edges = edgesRemovalList.copy()
+        adj = [[] for _ in range(n)]
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
 
-            for edge in edges:
-                if len(stack) == 0 or stack[-1][1] == edge[0]:
-                    stack.append(edge)
-                    edgesRemovalList[edges.index(edge)] = True
-            
-            popEdge = stack.pop()
-            if hasApple[popEdge[1]]:
-                pathCount += 2
-                if len(stack) > 0:
-                    hasApple[stack[-1][1]] = True
-        
-        return pathCount
+        visited = set()
+        def dfs(node):
+            if node in visited:
+                return 0
+            visited.add(node)
+            secs = 0
+            for child in adj[node]:
+                secs += dfs(child)
+            if secs > 0:
+                return secs + 2
+            return 2 if hasApple[node] else 0
+
+        return max(dfs(0) - 2, 0)
                     
 
 getApples = Solution()

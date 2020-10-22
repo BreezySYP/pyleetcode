@@ -14,4 +14,6 @@ def rob(nums):
     return dp[size - 1]
 
 print(rob([2,1,1,2]))
+
+
     
