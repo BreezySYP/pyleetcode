@@ -4,7 +4,6 @@ from typing import List
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
         target = sum(stones) / 2
-        length = len(stones) / 2
 
         @cache
         def dfs(i, n):
